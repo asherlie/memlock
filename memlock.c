@@ -27,12 +27,12 @@ int main(int argc, char* argv[]){
             pa = addr; pv = val;
             ch = getchar();
       }while(ch != 'q' && ch != 'Q');
-      if(ch == 'Q'){
-            fputs("to remove locks, enter the following:\nkill -9 ", stdout);
+      if(ch == 'q')printf("%i locks have been removed\n", free_locks(&lc));
+      else if(lc.n > 0){
+            printf("%i locks in place\nto remove locks, enter the following:\nkill -9 ", lc.n);
             // can use n because removal is not possible
             for(int i = 0; i < lc.n; ++i)printf(" %i", lc.locks[i].pid);
             puts("");
       }
-      else printf("%i locks have been removed\n", free_locks(&lc));
       return 0;
 }
