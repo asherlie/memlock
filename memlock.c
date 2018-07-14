@@ -8,7 +8,8 @@ int main(int argc, char* argv[]){
       int val, pv = 0;
       struct lock_container lc;
       lock_container_init(&lc, 5); 
-      puts("enter q at any time to kill all locks");
+      puts("enter q at any time to kill all locks or Q to exit without killing locks");
+      char ch = 0;
       do{
             if(!ps){
                   puts("enter pid, addr, val");
@@ -23,7 +24,14 @@ int main(int argc, char* argv[]){
                   printf("address %p in proccess %i locked to %i\n", addr, pid, val);
             }
             pa = addr; pv = val;
-      }while(getchar() != 'q');
-      printf("%i locks have been removed\n", free_locks(&lc));
+            ch = getchar();
+      }while(ch != 'q' && ch != 'Q');
+      if(ch == 'Q'){
+            fputs("to remove locks, enter the following:\nkill -9 ", stdout);
+            // can use n because removal is not possible
+            for(int i = 0; i < lc.n; ++i)printf(" %i", lc.locks[i].pid);
+            puts("");
+      }
+      else printf("%i locks have been removed\n", free_locks(&lc));
       return 0;
 }
