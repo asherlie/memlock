@@ -1,11 +1,12 @@
 #include "vmem_access.h"
 
 int main(int argc, char* argv[]){
+      // TODO: check for invalid/no root with mem_rgn_warn 
       bool ps = argc >= 2;
       pid_t pid;
       if(ps)pid = atoi(argv[1]);
-      void* addr; void* pa = 0x0;
-      int val, pv = 0;
+      void* addr = 0x0; void* pa = 0x0;
+      int val = 0, pv = 0;
       struct lock_container lc;
       lock_container_init(&lc, 5); 
       puts("enter q at any time to kill all locks or Q to exit without killing locks");
