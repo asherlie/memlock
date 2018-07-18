@@ -1,5 +1,5 @@
 # memlock
-memlock is a simple memory address integer value locking utility written using [vmem_access](http://github.com/asherlie/varedit#memory-locking)
+memlock is a simple memory address integer value locking utility written using my [memcarve](http://github.com/asherlie/memcarve) library
 
 this program can be used in two different modes and exited with two different options
 #### modes
