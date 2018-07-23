@@ -1,10 +1,23 @@
 #include <vmem_access.h>
 
+bool strtoi(const char* str, int* i){
+      char* res;
+      if(i)*i = (int)strtol(str, &res, 10);
+      else strtol(str, &res, 10);
+      return !*res;
+}
+
+bool strtop(const char* str, void** p){
+      char* res;
+      if(p)*p = (void*)strtoul(str, &res, 16);
+      else strtoul(str, &res, 16);
+      return !*res;
+}
+
 int main(int argc, char* argv[]){
       // TODO: check for invalid/no root with mem_rgn_warn 
-      bool ps = argc >= 2;
       pid_t pid;
-      if(ps)pid = atoi(argv[1]);
+      bool ps = argc >= 2 && strtoi(argv[1], &pid);
       void* addr = 0x0; void* pa = 0x0;
       int val = 0, pv = 0;
       struct lock_container lc;
@@ -30,7 +43,7 @@ int main(int argc, char* argv[]){
       if(ch == 'q')printf("%i locks have been removed\n", free_locks(&lc));
       else if(lc.n > 0){
             printf("%i locks in place\nto remove locks, enter the following:\nkill -9 ", lc.n);
-            // can use n because removal is not possible
+            // can use n because removal is not possible in memlock
             for(int i = 0; i < lc.n; ++i)printf(" %i", lc.locks[i].pid);
             puts("");
       }
