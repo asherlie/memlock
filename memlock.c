@@ -26,10 +26,7 @@ bool is_root(){
 }
 
 int main(int argc, char* argv[]){
-      if(!is_root()){
-            puts("root permissions are required");
-            return -1;
-      }
+      if(!is_root())fprintf(stderr, "WARNING: root permissions are required\n");
       pid_t pid;
       char pid_s[10], addr_s[15], val_s[20];
       bool ps = argc >= 2 && strtoi(argv[1], &pid) && has_ac(pid);
