@@ -14,11 +14,19 @@ bool strtop(const char* str, void** p){
       return !*res;
 }
 
+bool good_pid(pid_t pid){
+      struct mem_rgn rgn = get_vmem_locations(pid, true);
+      bool ret = !((!rgn.stack.start || !rgn.stack.end) && (!rgn.heap.start || !rgn.heap.end) && (rgn.n_remaining == 0));
+      free_mem_rgn(&rgn);
+      return ret;
+}
+
 int main(int argc, char* argv[]){
       // TODO: check for invalid/no root with mem_rgn_warn 
       pid_t pid;
       char pid_s[10], addr_s[15], val_s[20];
-      bool ps = argc >= 2 && strtoi(argv[1], &pid);
+      bool ps = argc >= 2 && strtoi(argv[1], &pid) && good_pid(pid);
+      if(!ps && argc >= 2)puts("invalid pid entered, starting memlock in any-pid mode");
       void* addr = 0x0; void* pa = 0x0;
       int val = 0, pv = 0;
       struct lock_container lc;
