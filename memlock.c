@@ -45,7 +45,6 @@ int main(int argc, char* argv[]){
                   }
                   fscanf(stdin, "%s", val_s);
                   if(!(strtoi(val_s, &val)) || !((strtop(addr_s, &addr))))continue;
-                  printf("val str: %s\nval: %i\n", val_s, val);
             }
             if(pa != addr || pv != val){
                   create_lock(&lc, pid, &addr, &val, NULL, 1, false, true, NULL);
