@@ -14,18 +14,25 @@ bool strtop(const char* str, void** p){
       return !*res;
 }
 
-bool good_pid(pid_t pid){
+bool has_ac(pid_t pid){
       struct mem_rgn rgn = get_vmem_locations(pid, true);
       bool ret = !((!rgn.stack.start || !rgn.stack.end) && (!rgn.heap.start || !rgn.heap.end) && (rgn.n_remaining == 0));
       free_mem_rgn(&rgn);
       return ret;
 }
 
+bool is_root(){
+      return has_ac(1);
+}
+
 int main(int argc, char* argv[]){
-      // TODO: check for invalid/no root with mem_rgn_warn 
+      if(!is_root()){
+            puts("root permissions are required");
+            return -1;
+      }
       pid_t pid;
       char pid_s[10], addr_s[15], val_s[20];
-      bool ps = argc >= 2 && strtoi(argv[1], &pid) && good_pid(pid);
+      bool ps = argc >= 2 && strtoi(argv[1], &pid) && has_ac(pid);
       if(!ps && argc >= 2)puts("invalid pid entered, starting memlock in any-pid mode");
       void* addr = 0x0; void* pa = 0x0;
       int val = 0, pv = 0;
@@ -42,7 +49,7 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s %s", addr_s, val_s);
-                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !good_pid(pid))continue;
+                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !has_ac(pid))continue;
             }
             else{
                   puts("enter addr, val");
@@ -64,7 +71,7 @@ int main(int argc, char* argv[]){
       else if(lc.n > 0){
             printf("%i locks in place\nto remove locks, enter the following:\nkill -9 ", lc.n);
             // can use n because removal is not possible in memlock
-            for(int i = 0; i < lc.n; ++i)printf(" %i", lc.locks[i].pid);
+            for(unsigned int i = 0; i < lc.n; ++i)printf(" %i", lc.locks[i].pid);
             puts("");
       }
       return 0;
