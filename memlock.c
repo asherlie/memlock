@@ -17,6 +17,7 @@ bool strtop(const char* str, void** p){
 int main(int argc, char* argv[]){
       // TODO: check for invalid/no root with mem_rgn_warn 
       pid_t pid;
+      char pid_s[10], addr_s[15], val_s[20];
       bool ps = argc >= 2 && strtoi(argv[1], &pid);
       void* addr = 0x0; void* pa = 0x0;
       int val = 0, pv = 0;
@@ -24,22 +25,34 @@ int main(int argc, char* argv[]){
       lock_container_init(&lc, 5); 
       puts("enter q at any time to kill all locks or Q to exit without killing locks");
       char ch = 0;
-      do{
+      while(1){
             if(!ps){
                   puts("enter pid, addr, val");
-                  fscanf(stdin, "%i %p %i", &pid, &addr, &val);
+                  fscanf(stdin, "%s", pid_s);
+                  if(*pid_s == 'q' || *pid_s == 'Q'){
+                        ch = *pid_s;
+                        break;
+                  }
+                  fscanf(stdin, "%s %s", addr_s, val_s);
+                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)))continue;
             }
             else{
                   puts("enter addr, val");
-                  fscanf(stdin, "%p %i", &addr, &val);
+                  fscanf(stdin, "%s", addr_s);
+                  if(*addr_s == 'q' || *addr_s == 'Q'){
+                        ch = *addr_s;
+                        break;
+                  }
+                  fscanf(stdin, "%s", val_s);
+                  if(!(strtoi(val_s, &val)) || !((strtop(addr_s, &addr))))continue;
+                  printf("val str: %s\nval: %i\n", val_s, val);
             }
             if(pa != addr || pv != val){
                   create_lock(&lc, pid, &addr, &val, NULL, 1, false, true, NULL);
                   printf("address %p in proccess %i locked to %i\n", addr, pid, val);
             }
             pa = addr; pv = val;
-            ch = getchar();
-      }while(ch != 'q' && ch != 'Q');
+      }
       if(ch == 'q')printf("%i locks have been removed\n", free_locks(&lc));
       else if(lc.n > 0){
             printf("%i locks in place\nto remove locks, enter the following:\nkill -9 ", lc.n);
