@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s %s", addr_s, val_s);
-                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)))continue;
+                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !good_pid(pid))continue;
             }
             else{
                   puts("enter addr, val");
