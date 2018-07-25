@@ -30,7 +30,8 @@ int main(int argc, char* argv[]){
       pid_t pid;
       char pid_s[10], addr_s[15], val_s[20];
       bool ps = argc >= 2 && strtoi(argv[1], &pid) && has_ac(pid);
-      if(!ps && argc >= 2)puts("invalid pid entered, starting memlock in any-pid mode");
+      if(!ps && argc >= 2)
+            fprintf(stderr, "WARNING: invalid pid entered, starting memlock in any-pid mode\n");
       void* addr = 0x0; void* pa = 0x0;
       int val = 0, pv = 0;
       struct lock_container lc;
