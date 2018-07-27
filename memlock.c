@@ -3,8 +3,9 @@
 bool strtoi(const char* str, int* i){
       char* res;
       int r = (int)strtol(str, &res, 10);
+      if(*res)return false;
       if(i)*i = r;
-      return !*res;
+      return true;
 }
 
 bool strtop(const char* str, void** p){
