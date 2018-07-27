@@ -2,8 +2,8 @@
 
 bool strtoi(const char* str, int* i){
       char* res;
-      if(i)*i = (int)strtol(str, &res, 10);
-      else strtol(str, &res, 10);
+      int r = (int)strtol(str, &res, 10);
+      if(i)*i = r;
       return !*res;
 }
 
@@ -60,6 +60,7 @@ int main(int argc, char* argv[]){
             }
             if(pa != addr || pv != val){
                   create_lock(&lc, pid, &addr, &val, NULL, 1, false, true, NULL);
+                  #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
                   printf("address %p in proccess %i locked to %i\n", addr, pid, val);
             }
             pa = addr; pv = val;
