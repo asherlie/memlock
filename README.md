@@ -3,11 +3,11 @@ memlock is a simple memory address integer value locking utility written using m
 
 this program can be used in two different modes and exited with two different options
 #### modes
-when supplied with a pid as an argument, memlock will assume that all locks to be applied 
+when supplied with a pid as an argument, memlock will assume that all locks to be applied will be to addresses in the specified pid
 
-otherwise, memlock makes no assumption. pid must be entered with every lock creation
+otherwise, memlock makes no such assumption - a pid must be entered with every lock creation
 
-#### options
+#### exit options
 memlock can be exited with 'q' or 'Q'
 
 when 'q' is used, all locks in place will be removed
