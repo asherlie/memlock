@@ -70,10 +70,10 @@ int main(int argc, char* argv[]){
                   #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
                   char** vs = NULL;
                   if(!integers){
-                        int s = strlen(val_s);
                         vs = malloc(sizeof(char*));
-                        *vs = malloc(s+1);
-                        memcpy(*vs, val_s, s);
+                        // length will never be > than that of val_s
+                        *vs = malloc(sizeof(val_s));
+                        memcpy(*vs, val_s, sizeof(val_s));
                   }
                   create_lock(&lc, pid, &addr, &val, vs, 1, false, integers, vs);
                   if(integers)printf("address %p in proccess %i locked to %i\n", addr, pid, val);
