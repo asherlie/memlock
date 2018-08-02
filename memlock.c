@@ -53,7 +53,7 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s %s", addr_s, val_s);
-                  if(!strtoi(pid_s, &pid) || !strtop(addr_s, &addr) || !has_ac(pid))continue;
+                  if(!strtoi(pid_s, &pid) || !strtop(addr_s, &addr) || addr == 0x0 || !has_ac(pid))continue;
             }
             else{
                   puts("enter addr, val");
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s", val_s);
-                  if(!((strtop(addr_s, &addr))))continue;
+                  if(!strtop(addr_s, &addr) || addr == 0x0)continue;
             }
             integers = strtoi(val_s, &val);
             if(pa != addr || pv != val){
