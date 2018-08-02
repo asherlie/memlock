@@ -53,7 +53,6 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s %s", addr_s, val_s);
-                  /*if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !has_ac(pid))continue;*/
                   if(!strtoi(pid_s, &pid) || !strtop(addr_s, &addr) || !has_ac(pid))continue;
             }
             else{
@@ -64,7 +63,6 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s", val_s);
-                  /*if(!(strtoi(val_s, &val)) || !((strtop(addr_s, &addr))))continue;*/
                   if(!((strtop(addr_s, &addr))))continue;
             }
             integers = strtoi(val_s, &val);
@@ -77,7 +75,6 @@ int main(int argc, char* argv[]){
                         *vs = malloc(s+1);
                         memcpy(*vs, val_s, s);
                   }
-                  /*must be able to free((char**)vs[0]);*/
                   create_lock(&lc, pid, &addr, &val, vs, 1, false, integers, vs);
                   if(integers)printf("address %p in proccess %i locked to %i\n", addr, pid, val);
                   else printf("address %p in proccess %i locked to \"%s\"\n", addr, pid, val_s);
