@@ -1,4 +1,5 @@
 #include <vmem_access.h>
+#include <string.h>
 
 bool strtoi(const char* str, int* i){
       char* res;
@@ -42,6 +43,7 @@ int main(int argc, char* argv[]){
       lock_container_init(&lc, 5); 
       puts("enter q at any time to kill all locks or Q to exit without killing locks");
       char ch = 0;
+      bool integers;
       while(1){
             if(!ps){
                   puts("enter pid, addr, val");
@@ -51,7 +53,8 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s %s", addr_s, val_s);
-                  if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !has_ac(pid))continue;
+                  /*if(!strtoi(pid_s, &pid) || !(strtoi(val_s, &val)) || !(strtop(addr_s, &addr)) || !has_ac(pid))continue;*/
+                  if(!strtoi(pid_s, &pid) || !strtop(addr_s, &addr) || !has_ac(pid))continue;
             }
             else{
                   puts("enter addr, val");
@@ -61,12 +64,23 @@ int main(int argc, char* argv[]){
                         break;
                   }
                   fscanf(stdin, "%s", val_s);
-                  if(!(strtoi(val_s, &val)) || !((strtop(addr_s, &addr))))continue;
+                  /*if(!(strtoi(val_s, &val)) || !((strtop(addr_s, &addr))))continue;*/
+                  if(!((strtop(addr_s, &addr))))continue;
             }
+            integers = strtoi(val_s, &val);
             if(pa != addr || pv != val){
-                  create_lock(&lc, pid, &addr, &val, NULL, 1, false, true, NULL);
                   #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-                  printf("address %p in proccess %i locked to %i\n", addr, pid, val);
+                  char** vs = NULL;
+                  if(!integers){
+                        int s = strlen(val_s);
+                        vs = malloc(sizeof(char*));
+                        *vs = malloc(s+1);
+                        memcpy(*vs, val_s, s);
+                  }
+                  /*must be able to free((char**)vs[0]);*/
+                  create_lock(&lc, pid, &addr, &val, vs, 1, false, integers, vs);
+                  if(integers)printf("address %p in proccess %i locked to %i\n", addr, pid, val);
+                  else printf("address %p in proccess %i locked to \"%s\"\n", addr, pid, val_s);
             }
             pa = addr; pv = val;
       }
