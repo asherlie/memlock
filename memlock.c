@@ -81,7 +81,11 @@ int main(int argc, char* argv[]){
             }
             pa = addr; pv = val;
       }
-      if(ch == 'q')printf("%i locks have been removed\n", free_locks(&lc));
+      if(ch == 'q'){
+            puts("removing the following locks:");
+            print_locks(&lc);
+            printf("%i locks have been removed\n", free_locks(&lc));
+      }
       else if(lc.n > 0){
             printf("%i locks in place\nto remove locks, enter the following:\nkill -9 ", lc.n);
             // can use n because removal is not possible in memlock
