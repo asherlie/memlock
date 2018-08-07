@@ -1,5 +1,5 @@
 # memlock
-memlock is a simple memory address value locking utility written using my [memcarve](http://github.com/asherlie/memcarve) library
+memlock is a simple memory address value locking utility that depends on [memcarve](http://github.com/asherlie/memcarve) library
 
 memlock can be used to lock either integer values or string values
 
