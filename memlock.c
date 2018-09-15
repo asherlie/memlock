@@ -26,7 +26,7 @@ bool has_ac(pid_t pid){
 int main(int argc, char* argv[]){
       bool ir = false;
       if(!(ir = has_ac(1)))fprintf(stderr, "WARNING: root permissions are required\n");
-      pid_t pid, pr_pid = -1;
+      pid_t pid;
       char pid_s[10], addr_s[15], val_s[20];
       bool ps = argc >= 2 && strtoi(argv[1], &pid) && has_ac(pid);
       if(!ps && argc >= 2){
@@ -83,13 +83,13 @@ int main(int argc, char* argv[]){
             printf("%i locks have been removed\n", free_locks(&lc));
       }
       else if(lc.n > 0){
-            pr_pid = fork();
             unsigned int n = lc.n;
-            // assuring that lc.n == lc.n_removed - which will always be 0
+            // assuring that lc.n == lc.n_removed - which will always be 0 in this program
             // when lc.n == lc.n_removed, lock_thread will return
             lc.n = 0;
             pthread_join(lc.thread, NULL);
             lc.n = n;
+            pid_t pr_pid = fork();
             if(pr_pid == 0)lock_th(&lc);
             printf("%i locks in place\nto remove locks, enter the following:\nkill -9 %i\n", lc.n, pr_pid);
       }
