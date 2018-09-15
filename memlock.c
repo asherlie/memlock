@@ -64,14 +64,13 @@ int main(int argc, char* argv[]){
             integers = strtoi(val_s, &val);
             if(pa != addr || pv != val){
                   #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-                  char** vs = NULL;
+                  char* vs = NULL;
                   if(!integers){
-                        vs = malloc(sizeof(char*));
                         // length will never be > than that of val_s
-                        *vs = malloc(sizeof(val_s));
-                        memcpy(*vs, val_s, sizeof(val_s));
+                        vs = malloc(sizeof(val_s));
+                        memcpy(vs, val_s, sizeof(val_s));
                   }
-                  create_lock(&lc, pid, &addr, &val, vs, 1, false, integers);
+                  create_lock(&lc, pid, &addr, &val, &vs, 1, false, integers);
                   if(integers)printf("address %p in proccess %i locked to %i\n", addr, pid, val);
                   else printf("address %p in proccess %i locked to \"%s\"\n", addr, pid, val_s);
             }
@@ -80,7 +79,7 @@ int main(int argc, char* argv[]){
       if(ch == 'q'){
             puts("removing the following locks:");
             print_locks(&lc);
-            printf("%i locks have been removed\n", free_locks(&lc));
+            printf("%i locks have been removed\n", free_locks(&lc, 0));
       }
       else if(lc.n > 0){
             unsigned int n = lc.n;
