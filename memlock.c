@@ -1,7 +1,7 @@
 #include <vmem_access.h>
 #include <string.h>
 
-#define MEMLOCK_VER "1.0.0"
+#define MEMLOCK_VER "memlock 1.0.1"
 
 bool strtoi(const char* str, int* i){
       char* res;
@@ -27,7 +27,7 @@ bool has_ac(pid_t pid){
 
 int main(int argc, char* argv[]){
       if(argc >= 2 && !strncmp(argv[1], "-v", 3)){
-            printf("memlock %s using libmemcarve %s\n", MEMLOCK_VER, MEMCARVE_VER);
+            printf("%s using %s\n", MEMLOCK_VER, MEMCARVE_VER);
             return 0;
       }
       bool ir = false;
