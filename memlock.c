@@ -75,12 +75,14 @@ int main(int argc, char* argv[]){
                   #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
                   char** vs = NULL;
                   if(!integers){
-                        // length will never be > than that of val_s
+                        // both vs and *vs will be freed by free_locks
                         vs = malloc(sizeof(char*));
+                        // length will never be > than that of val_s
                         *vs = malloc(sizeof(val_s));
                         memcpy(*vs, val_s, sizeof(val_s));
                   }
                   else{
+                        // freeing of val_p is done by free_locks
                         val_p = malloc(sizeof(int));
                         *val_p = val;
                   }
