@@ -1,7 +1,9 @@
-CXX=gcc
-all: v 
-v:
-	$(CXX) memlock.c -lmemcarve -O2 -o ml -Wall -Wextra -Wpedantic -Werror -Wno-unused-result -std=c99 -lpthread
+CC=gcc
+CFLAGS= -lmemcarve -Wall -Wextra -Wpedantic -Werror -Wno-unused-result -std=c99 -lpthread -O2
+
+all: ml 
+ml: memlock.c
+	$(CC) $(CFLAGS) memlock.c -o ml
 
 clean:
 	rm -f ml
